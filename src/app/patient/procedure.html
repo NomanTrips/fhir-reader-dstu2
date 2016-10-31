@@ -1,0 +1,3 @@
+	<h3>{{entry.resource.code.coding[0].display + ' ' + entry.resource.code.coding[0].code}} </h3>
+	<h4><b>Performed on:</b> {{entry.resource.performedDateTime}} &nbsp;&nbsp; <b>Reason: </b>{{entry.resource.reasonCodeableConcept.text}}</h4>
+	<p><b>Performed by:</b> {{entry.resource.performer.actor[0].display}}</p>

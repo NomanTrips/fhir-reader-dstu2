@@ -1,0 +1,4 @@
+    <h3><b>{{entry.resource.type[0].coding[0].display + ' ' + entry.resource.type[0].coding[0].code}}</b></h3>
+	<h4><b>DOS: </b>{{entry.resource.period.start +' to '+entry.resource.period.end}}  &nbsp;&nbsp; <b>Provider: </b>{{entry.resource.serviceProvider.reference}}</h4>
+	<p><b>Reason: </b> {{entry.resource.reason[0].text}}</p>
+	<md-divider ng-hide="last"></md-divider>

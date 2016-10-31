@@ -1,0 +1,8 @@
+    <h3><b>{{entry.resource.code.coding[0].display }}</b></h3>
+	<h4><b>{{entry.resource.component[0].code.coding[0].display}}</b> {{' '+ entry.resource.component[0].valueQuantity.value}} 
+		{{entry.resource.component[0].valueQuantity.unit}}
+		&nbsp;&nbsp;
+		<b>{{entry.resource.component[1].code.coding[0].display}}</b> {{' '+ entry.resource.component[1].valueQuantity.value}} 
+		{{entry.resource.component[1].valueQuantity.unit}}
+	</h4>
+	<p><b>Date/time: </b> {{entry.resource.effectiveDateTime}}   <b>Interpertation: </b> {{entry.resource.interpretation.coding[0].display}}</p>

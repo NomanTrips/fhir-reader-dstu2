@@ -1,0 +1,3 @@
+	<h3><b>{{entry.medication.code.coding[0].display}} </b></h3>
+	<h4><b>Dose: </b>  {{entry.resource.dosageInstruction[0].doseQuantity.value}} &nbsp;&nbsp; <b> Route: </b>{{entry.resource.dosageInstruction[0].route.coding[0].display}}</h4>
+	<p><b>Reason:</b> {{entry.resource.reasonCodeableConcept.coding[0].display}} &nbsp;&nbsp;<b>     Instructions: </b>{{entry.resource.dosageInstruction[0].text}}</p>

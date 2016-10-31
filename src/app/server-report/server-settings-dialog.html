@@ -1,0 +1,50 @@
+<md-dialog aria-label="Fhir server settings">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Fhir server settings</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="settingsCtrl.cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h2></h2>
+        
+        <md-input-container  class="md-block" flex-gt-sm>
+          <label>Fhir server end-point URL:</label>
+          <input ng-model="settingsCtrl.baseUrl">
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Authorization Server URL</label>
+          <input ng-model="settingsCtrl.authServerAddress">
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Client Id</label>
+          <input ng-model="settingsCtrl.ClientName">
+        </md-input-container>
+  
+      <md-input-container class="md-block" flex-gt-sm>
+          <label>Client Secret</label>
+          <textarea ng-model="settingsCtrl.authServer.Secret" md-maxlength="150" rows="5" md-select-on-focus=""></textarea>
+        </md-input-container>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="settingsCtrl.answer('not useful')">
+       Cancel
+      </md-button>
+      <md-button ng-click="settingsCtrl.answer('useful')">
+       Save
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,16 @@
+<div layout="row">
+	<div ng-show="! isNarrativeViewOn" flex="80">
+		<h3><b>{{entry.resource.substance.coding[0].display + ' ' + entry.resource.substance.coding[0].code +entry}} <b></h3>
+<h4><b>Allergy type: </b> {{entry.resource.category}} </h4>
+			<p><b>Reaction: </b>{{entry.resource.reaction[0].manifestation[0].coding[0].display}} &nbsp;&nbsp; <b>Severity: </b>{{entry.resource.reaction[0].severity}}
+			</p>
+	</div>
+	<div ng-show="isNarrativeViewOn" ng-bind-html="entry.resource.text.div" flex="80">
+
+	</div>
+	<div flex>
+		<md-switch class="md-primary" md-no-ink="" aria-label="Switch No Ink" ng-model="isNarrativeViewOn" ng-change="onChange(isNarrativeViewOn)">
+			{{ message }}
+		</md-switch>
+	</div>
+</div>

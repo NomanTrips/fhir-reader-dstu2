@@ -1,0 +1,145 @@
+<div flex layout="row">
+
+  <md-sidenav  class="md-sidenav-left" md-whiteframe="4" ng-click="ul.toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" >
+
+    <md-toolbar class="md-toolbar-tools md-primary">
+      <div >
+        <h3 flex="2">
+          FHIR-reader
+        </h3>
+      </div>
+    </md-toolbar>
+
+  <div layout="column" ng-cloak="" class="autocompletedemoCustomTemplate">
+    <form ng-submit="$event.preventDefault()">
+      <md-autocomplete 
+        class="autocompletable" 
+        ng-disabled="ctrl.isDisabled" 
+        md-no-cache="ctrl.noCache" 
+        md-selected-item="ctrl.selectedItem" 
+        md-search-text-change="resources.setSearchText(ctrl.searchText)" 
+        md-search-text="ctrl.searchText" 
+        md-selected-item-change="resources.navToPatient(entry.resource.id)" 
+        md-items="entry in resources.patientEntries | orderBy:'resource.name[0].family' | filter:ctrl.searchText" 
+        md-item-text="entry.resource.name[0].given" 
+        md-min-length="3" 
+        placeholder="Enter patient name" 
+        md-menu-class="autocompletable-contents">
+        <md-item-template >
+          <span md-highlight-text="ctrl.searchText" md-highlight-flags="i" class="item-title">
+             {{entry.resource.name[0].family + ', ' +  entry.resource.name[0].given}}  
+          </span>
+          <span class="item-metadata">
+            <span>
+              <strong> {{entry.resource.gender}} &nbsp;&nbsp;&nbsp;&nbsp; {{entry.resource.birthDate}}</strong>
+            </span>
+          </span>
+        </md-item-template>
+        <md-not-found>
+          <span>No patients matching: "{{ctrl.searchText}}" found.</span>
+        </md-not-found>
+      </md-autocomplete>
+    </form>
+</div>
+
+<div style="padding-top:100px;">
+<md-subheader  md-theme="dark-grey">Connection settings:</md-subheader>
+</div>
+
+<div layout="row" layout-align="left center"><md-input-container >
+        <label>Fhir server</label>
+        <md-select ng-model="resources.selectedServer" md-selected-text="resources.getSelectedServer()">
+          <md-optgroup label="fhir server">
+            <md-option ng-value="server" ng-repeat="server in resources.servers.servers" ng-click="resources.setSelectedServer(server)">{{server.server.name}}</md-option>
+          </md-optgroup>
+        </md-select>
+      </md-input-container>
+ <md-button class="md-icon-button md-primary md-raised" aria-label="Settings" ng-click="resources.showFhirSettings($event)">
+        <md-icon md-svg-icon="settings-work-tool"></md-icon>
+        <md-tooltip md-direction="right">Change server settings</md-tooltip>
+      </md-button>
+</div>
+
+<div layout="row" layout-align="left center">
+          <md-input-container  >
+            <label>Client name:</label>
+            <input ng-model="resources.clientName" disabled="">
+
+          </md-input-container>
+
+</div>
+
+<md-subheader >Client permissions:</md-subheader>
+    <md-chips>
+      <md-chip>patient/*.read</md-chip>
+      <md-chip>condition/*.read</md-chip>
+      <md-chip>observation/*.read</md-chip>
+      <md-chip>medication/*.read</md-chip>
+    </md-chips>
+
+  </md-sidenav>
+
+
+
+  <md-content flex layout="row" layout-align="center center" >
+<div layout="column" layout-fill layout-padding >
+      
+
+
+<md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch="" >
+  <div layout="row">
+        <toggle-sidenav></toggle-sidenav>
+
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Server at a glance: </span>
+          </md-card-title-text>
+        </md-card-title>
+  </div>
+        <md-card-content layout="column" layout-align="space-between">
+
+<div layout="column">
+<md-subheader>Available resource types</md-subheader>
+    <md-chips>
+      <md-chip>Patients (24)</md-chip>
+      <md-chip>Encounters (67)</md-chip>
+      <md-chip>Conditions (15)</md-chip>
+      <md-chip>Medications (8)</md-chip>
+      <md-chip>Prescriptions (34)</md-chip>
+      <md-chip>Observations (150)</md-chip>
+      <md-chip>Results (200)</md-chip>
+      <md-chip>Diagnosis (30)</md-chip>
+    </md-chips>
+</div>
+<div layout="column">
+
+<md-subheader>Publisher & Contact</md-subheader>
+  <h3>Tarrytown Hospital</h3>
+  <span>81 Fairview Ave.</span>
+  <span>Tarrytown NY, 10591</span>
+  <span><b>P:</b> 845.464.9999</span>
+  <span><b>E:</b> ttownhospital@empireNY.com</span>
+</div>
+          <md-card-actions layout="column">
+            <md-button class="md-icon-button" aria-label="Favorite">
+              <md-icon md-svg-icon=""></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Settings">
+              <md-icon md-svg-icon=""></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Share">
+              <md-icon md-svg-icon=""></md-icon>
+            </md-button>
+          </md-card-actions>
+
+        </md-card-content>
+      </md-card>
+</div>
+
+    
+  </md-content>
+
+</div>
+
+<script type="text/ng-template" id="dialog1.tmpl.html">
+</script>
