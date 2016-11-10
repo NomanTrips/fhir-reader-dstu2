@@ -1,3 +1,18 @@
-    <h3>{{entry.resource.code.coding[0].display + ' ' + entry.resource.code.coding[0].code}}</h3>
-	<h4><b>Status: </b> {{entry.resource.verificationStatus}}</h4>
-	<p></p>
+<div layout="column" flex>
+	<h3><b>{{entry.resource.code.coding[0].display + ' ' + entry.resource.code.coding[0].code}} </b></h3>
+	<div flex>
+		<span>
+			<p>
+		<span ng-show="entry.resource.verificationStatus">
+			<b>Verification status:</b> {{entry.resource.verificationStatus}} 
+		</span>
+		<span ng-show="entry.resource.clinicalStatus">
+			<b>Clinical status:</b> {{entry.resource.clinicalStatus}} 
+		</span>
+		<span ng-show="entry.resource.onsetDateTime">
+			<b>Onset:</b> {{entry.resource.onsetDateTime}}
+		</span>
+		</p>
+		</span>
+	</div>
+</div>

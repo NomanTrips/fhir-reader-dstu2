@@ -81,7 +81,9 @@ fhirReader.config(function ($mdThemingProvider, $mdIconProvider) {
     .icon("microscope", "./assets/svg/microscope.svg", 24)
     .icon("pulse", "./assets/svg/pulse.svg", 24)
     .icon("list", "./assets/svg/list.svg", 24)
-    .icon("settings-work-tool", "./assets/svg/settings-work-tool.svg", 24);
+    .icon("settings-work-tool", "./assets/svg/settings-work-tool.svg", 24)
+    .icon("expand", "./assets/svg/expand.svg", 24)
+    .icon("collapse", "./assets/svg/collapse.svg", 24);
 
   $mdThemingProvider.theme('default')
     .primaryPalette('blue', {
@@ -95,6 +97,12 @@ fhirReader.config(function ($mdThemingProvider, $mdIconProvider) {
     .warnPalette('deep-orange');
 
   $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+  $mdThemingProvider.theme('light-grey').backgroundPalette('grey', {
+    'default': 'A700'
+  });
+  $mdThemingProvider.theme('dark-yellow').primaryPalette('yellow', {
+    'default': '700'
+  });
 
 
 });

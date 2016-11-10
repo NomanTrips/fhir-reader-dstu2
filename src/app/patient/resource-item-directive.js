@@ -10,7 +10,7 @@ fhirReader.directive('resourceItem',
           Encounter: 'encounter.html',
           Condition: 'condition.html',
           Procedure: 'procedure.html',
-          MedicationPrescription: 'prescription.html',
+          MedicationOrder: 'medication-order.html',
           Patient: 'patient.html',
           Immunization: 'immunization.html',
           DiagnosticReport: 'diagnosticreport.html',
@@ -26,7 +26,20 @@ fhirReader.directive('resourceItem',
 
     var insertIntoItemHtml = function (itemHtml) {
       return '<div class="md-list-item-text" layout="column">' +
+        '<div layout="row">' +
         itemHtml +
+        '<md-button class="md-icon-button" aria-label="Expand" ng-click="isShowJsonOn = !isShowJsonOn">' +
+        '<md-icon md-svg-icon="expand" ng-show="!isShowJsonOn" ></md-icon>' +
+        '<md-icon md-svg-icon="collapse" ng-show="isShowJsonOn"></md-icon>' +
+        '</md-button>' +
+        '</div>' +
+        '<md-list-item  ng-show="isShowJsonOn">' +
+        '<div >' +
+        '<pre>' +
+        '{{entry | json}}	' +
+        '</pre>' +
+        '</div>' +
+        '</md-list-item>' +
         '<md-divider ng-hide="last"></md-divider>' +
         '</div>'
 
@@ -41,6 +54,7 @@ fhirReader.directive('resourceItem',
       },
       link: function (scope, element, attrs) {
         scope.isNarrativeViewOn = false;
+        scope.isShowJsonOn = false;
         scope.message = 'Discrete';
         scope.onChange = function (state) {
           if (state == true) {
@@ -49,6 +63,10 @@ fhirReader.directive('resourceItem',
             scope.message = 'Discrete';
           }
 
+        }
+        scope.showJson = function () {
+          console.log('getting to show json');
+          scope.isShowJsonOn = true;
         }
         var loader = getTemplate(scope.resource);
         var promise = loader.success(function (html) {

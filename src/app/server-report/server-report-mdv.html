@@ -1,12 +1,21 @@
+<div  id="loadingbar" ng-hide="resources.loadingBarIncrement > 100">
+  <md-progress-linear md-mode="determinate" value="{{resources.loadingBarIncrement}}" md-theme="dark-yellow">
+  </md-progress-linear>
+</div>
+
 <div flex layout="row">
 
   <md-sidenav  class="md-sidenav-left" md-whiteframe="4" ng-click="ul.toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" >
 
     <md-toolbar class="md-toolbar-tools md-primary">
-      <div >
-        <h3 flex="2">
+      <div flex="50">
+        <h3 >
           FHIR-reader
         </h3>
+      </div>
+      <div flex="50"  layout-sm="column" layout-align="space-around" id="loadingcircle" ng-hide="resources.loadingBarIncrement > 100">
+        <md-progress-circular md-mode="indeterminate" md-theme="dark-yellow" md-diameter="20px">
+        </md-progress-circular>
       </div>
     </md-toolbar>
 
@@ -101,24 +110,20 @@
 <div layout="column">
 <md-subheader>Available resource types</md-subheader>
     <md-chips>
-      <md-chip>Patients (24)</md-chip>
-      <md-chip>Encounters (67)</md-chip>
-      <md-chip>Conditions (15)</md-chip>
-      <md-chip>Medications (8)</md-chip>
-      <md-chip>Prescriptions (34)</md-chip>
-      <md-chip>Observations (150)</md-chip>
-      <md-chip>Results (200)</md-chip>
-      <md-chip>Diagnosis (30)</md-chip>
+      <md-chip>Patient ({{resources.patientCount}})</md-chip>
+      <md-chip>Encounter ({{resources.encounterCount}})</md-chip>
+      <md-chip>Condition ({{resources.conditionCount}})</md-chip>
+      <md-chip>Medication Order ({{resources.medicationOrderCount}})</md-chip>
+      <md-chip>Observation ({{resources.observationCount}})</md-chip>
+      <md-chip>Procedure ({{resources.procedureCount}})</md-chip>
     </md-chips>
 </div>
 <div layout="column">
 
 <md-subheader>Publisher & Contact</md-subheader>
-  <h3>Tarrytown Hospital</h3>
-  <span>81 Fairview Ave.</span>
-  <span>Tarrytown NY, 10591</span>
-  <span><b>P:</b> 845.464.9999</span>
-  <span><b>E:</b> ttownhospital@empireNY.com</span>
+  <h3>{{resources.publisher}}</h3>
+  <span ng-show="resources.formats"><b>Supported formats:</b> {{resources.formats}}</span>
+  <span  ng-show="resources.fhirVersion"><b>FHIR version:</b> {{resources.fhirVersion}}</span>
 </div>
           <md-card-actions layout="column">
             <md-button class="md-icon-button" aria-label="Favorite">

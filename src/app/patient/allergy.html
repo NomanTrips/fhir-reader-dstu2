@@ -1,6 +1,7 @@
+<!--
 <div layout="row">
 	<div ng-show="! isNarrativeViewOn" flex="80">
-		<h3><b>{{entry.resource.substance.coding[0].display + ' ' + entry.resource.substance.coding[0].code +entry}} <b></h3>
+		<h3><b>{{entry.resource.substance.coding[0].display + ' ' + entry.resource.substance.coding[0].code}} <b></h3>
 <h4><b>Allergy type: </b> {{entry.resource.category}} </h4>
 			<p><b>Reaction: </b>{{entry.resource.reaction[0].manifestation[0].coding[0].display}} &nbsp;&nbsp; <b>Severity: </b>{{entry.resource.reaction[0].severity}}
 			</p>
@@ -12,5 +13,30 @@
 		<md-switch class="md-primary" md-no-ink="" aria-label="Switch No Ink" ng-model="isNarrativeViewOn" ng-change="onChange(isNarrativeViewOn)">
 			{{ message }}
 		</md-switch>
+	</div>
+</div>
+-->
+<div layout="column" flex>
+	<h3><b>{{entry.resource.substance.coding[0].display + ' ' + entry.resource.substance.coding[0].code}} </b></h3>
+	<div flex>
+		<span>
+			<p>
+		<span ng-show="entry.resource.category">
+			<b>Category:</b> {{entry.resource.category}} 
+		</span>
+		<span ng-show="entry.resource.reaction[0].manifestation[0].coding[0].display">
+			<b>Reaction:</b> {{entry.resource.reaction[0].manifestation[0].coding[0].display}} 
+		</span>
+		<span ng-show="entry.resource.reaction[0].severity">
+			<b>Severity:</b> {{entry.resource.reaction[0].severity}}
+		</span>
+		<span ng-show="entry.resource.status">
+			<b>Status:</b> {{entry.resource.status}}
+		</span>
+		<span ng-show="entry.resource.recordedDate">
+			<b>Recorded Date:</b> {{entry.resource.recordedDate}}
+		</span>
+		</p>
+		</span>
 	</div>
 </div>

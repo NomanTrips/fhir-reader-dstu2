@@ -7,17 +7,22 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel) {
   self.baseUrl;
   self.connectionInfoResolved = false;
 
-  function getSearchURL(resourceType, url) {
+  function getSearchURL(resourceType, searchString) {
+    if (searchString !== undefined) {
+      var url = self.baseUrl + resourceType + '?' + searchString;
+    } else {
+      var url = self.baseUrl + resourceType
+    }
     return {
       method: 'GET',
-      url: self.baseUrl + resourceType,
+      url: url,
       headers: {
         'Accept': 'application/json; charset=UTF-8'
       },
     }
   };
 
-  function getSearchByIdURL(resourceType, searchId, url) {
+  function getSearchByIdURL(resourceType, searchId) {
     return {
       method: 'GET',
       url: self.baseUrl + resourceType,
@@ -28,7 +33,7 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel) {
     }
   };
 
-  function getGetByIdURL(resourceType, searchId, url) {
+  function getGetByIdURL(resourceType, searchId) {
     return {
       method: 'GET',
       url: self.baseUrl + resourceType + '/' + searchId,
@@ -38,15 +43,12 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel) {
     }
   };
 
+
   function extract(result) {
-    if (result.data.entry == undefined) {
-      if (result.data.resourceType === 'Bundle' && result.data.total === 0) {
-        return [];
-      } else {
-        return result.data; // Single resource
-      }
+    if (result.data === undefined) {
+      return [];
     } else {
-      return result.data.entry; // Collection of resources (entries)  
+      return result.data;
     }
   }
 
@@ -81,15 +83,15 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel) {
     isConnectionInfoResolved: function () {
       return self.connectionInfoResolved;
     },
-    fhirSearchById: function (id, resourceType, url) {
+    fhirSearchById: function (id, resourceType) {
       return $http(getSearchByIdURL(resourceType, id)).then(extract);
     },
 
-    fhirSearch: function (resourceType, url) {
-      return $http(getSearchURL(resourceType)).then(extract);
+    fhirSearch: function (resourceType, searchString) {
+      return $http(getSearchURL(resourceType, searchString)).then(extract);
     },
 
-    fhirGetById: function (id, resourceType, url) {
+    fhirGetById: function (id, resourceType) {
       return $http(getGetByIdURL(resourceType, id)).then(extract);
     }
 

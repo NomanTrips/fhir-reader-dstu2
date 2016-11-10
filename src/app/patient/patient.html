@@ -1,3 +1,30 @@
+<!--
 	<h3><b>Contact information: </b> <div ng-repeat="telecom in entry.telecom"> <b>{{telecom.system + ': '}}</b>{{telecom.value}} </div></h3>
 	<h4><b>Address:</b> {{entry.address[0].line[0]}}, {{entry.address[0].city}} {{entry.address[0].state + ', ' + entry.address[0].postalCode}}</h4>
 	<p></p>
+-->
+<div layout="column" flex>
+	<h3 ng-show="entry.identifier[0].value"><b>MRN: </b> {{entry.identifier[0].value}} <b>System: </b> {{entry.identifier[0].system }}
+	</h3>
+	<div flex>
+		<span>
+		<p>
+			<span ng-repeat="telecom in entry.telecom">
+				<b>{{telecom.system + ': '}}</b>{{telecom.value}}
+			</span>
+		<span ng-show="entry.address[0].line[0]">
+			<b>Address:</b> {{entry.address[0].line[0]}} 
+		</span>
+		<span ng-show="entry.address[0].city">
+			<b>City:</b> {{entry.address[0].city}} 
+		</span>
+		<span ng-show="entry.address[0].state">
+			<b>State:</b> {{entry.address[0].state}}
+		</span>
+		<span ng-show="entry.address[0].postalCode">
+			<b>Postal code:</b> {{entry.address[0].postalCode}}
+		</span>
+		</p>
+		</span>
+	</div>
+</div>

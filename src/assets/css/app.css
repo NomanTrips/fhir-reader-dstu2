@@ -6,6 +6,23 @@ html, body {
   padding: 0px;
 }
 
+
+#loadingbar {
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#loadingbar {
+  z-index: 61; /* to sit ontop of sidenav which has a z-index of 60*/
+}
+
+#loadingcircle {
+  z-index: 61;
+}
+
 /* Toolbar area */
 
 .menu {

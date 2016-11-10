@@ -1,0 +1,37 @@
+<div layout="column" flex>
+	<h3 ng-show="entry.medication != undefined"><b>{{entry.medication.code.coding[0].display}} </b></h3>
+	<h3 ng-show="entry.medication == undefined"><b>{{entry.resource.medicationCodeableConcept.coding[0].display}}</b></h3>
+	<div flex>
+		<span>
+					<p>
+		<span ng-show="entry.resource.dosageInstruction[0].doseQuantity.value">
+			<b>Dose:</b> {{entry.resource.dosageInstruction[0].doseQuantity.value}} 
+		</span>
+		<span ng-show="entry.resource.dosageInstruction[0].doseQuantity.unit">
+			{{entry.resource.dosageInstruction[0].doseQuantity.unit}} 
+		</span>
+		<span ng-show="entry.resource.dosageInstruction[0].route.coding[0].display">
+			<b>Route:</b> {{entry.resource.dosageInstruction[0].route.coding[0].display}}
+		</span>
+		</span>
+
+
+		<span ng-show="entry.resource.reasonCodeableConcept.coding[0].display">
+		<b>Reason:</b> {{entry.resource.reasonCodeableConcept.coding[0].display}}    
+			</span>
+
+		<span ng-show="entry.resource.dosageInstruction[0].text">	
+	<b>Instructions: </b>{{entry.resource.dosageInstruction[0].text}}
+	</span>
+		<span ng-show="entry.resource.dosageInstruction[0].timing.repeat.boundsPeriod.start">	
+	<b>Start: </b>{{entry.resource.dosageInstruction[0].timing.repeat.boundsPeriod.start}}
+	</span>
+		<span ng-show="entry.resource.dosageInstruction[0].timing.repeat.frequency">	
+	<b>Frequency: </b>{{entry.resource.dosageInstruction[0].timing.repeat.frequency}}
+	per {{entry.resource.dosageInstruction[0].timing.repeat.period}} 
+	{{entry.resource.dosageInstruction[0].timing.repeat.periodUnits}}
+	</span>
+
+		</p>
+	</div>
+</div>
