@@ -8,7 +8,6 @@ fhirReader.controller('SettingsDialogCtrl',
     ctrl.connectionInfoResolved = false;
 
     ctrl.authServerAddress = ServerConnectionModel.authServerURL();
-    ctrl.ClientName = ServerConnectionModel.clientName();
     ctrl.hide = function () {
       $mdDialog.hide();
     };
@@ -17,6 +16,7 @@ fhirReader.controller('SettingsDialogCtrl',
       ServerConnectionModel.getServerInfo().then(function (data) {
         ctrl.server = (data !== 'null') ? data : {};
         ctrl.baseUrl = (data.baseUrl !== 'null') ? data.baseUrl : '';
+        ctrl.clientName = (data.clientName !== 'null') ? data.clientName : '';
       });
     };
 
