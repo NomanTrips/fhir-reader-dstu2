@@ -22,7 +22,6 @@ fhirReader.controller('ServerReportCtrl',
         });
     }
     
-
     function setSearchText(text) {
       ctrl.searchText = text;
     }
