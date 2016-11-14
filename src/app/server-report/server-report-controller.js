@@ -1,15 +1,14 @@
 'use strict';
 
 fhirReader.controller('ServerReportCtrl',
-  function ($mdSidenav, $location, FhirModel, $timeout, $q, $mdDialog, $mdMedia) {
+  function ($mdSidenav, $location, FhirModel, $timeout, $q, $mdDialog, $mdMedia, ServerConnectionModel) {
     var ctrl = this;
-    //var resourceType = '';
-    //resourceDetail.resList = false;
     ctrl.loadingBarIncrement = 30;
 
     ctrl.status = '  ';
     ctrl.customFullscreen = false;
-
+    ctrl.server;
+    ctrl.baseUrl;
     ctrl.setSearchText = setSearchText;
 
     ctrl.toggleSideNav = function () {
@@ -26,19 +25,15 @@ fhirReader.controller('ServerReportCtrl',
     function setSearchText(text) {
       ctrl.searchText = text;
     }
+    
     ctrl.clientName = 'Tarrytown Surgery';
-    ctrl.servers = { "servers": [{ "server": { "name": "fhirbridge" } }, { "server": { "name": "hapi-fhir-public" } }] };
-    ctrl.selectedServer;
-    ctrl.getSelectedServer = function () {
-      if (ctrl.selectedServer !== undefined) {
-        return ctrl.selectedServer.server.name;
-      } else {
-        return "Please select an server";
-      }
+
+    ctrl.getServerInfo = function () {
+      ServerConnectionModel.getServerInfo().then(function (data) {
+        ctrl.server = (data !== 'null') ? data : {};
+        ctrl.baseUrl = (data.baseUrl !== 'null') ? data.baseUrl : '';
+      });
     };
-    ctrl.setSelectedServer = function (server) {
-      ctrl.selectedServer = server;
-    }
 
     ctrl.navToPatient = function (id) {
       var url = '/patients/' + id;
@@ -132,11 +127,13 @@ fhirReader.controller('ServerReportCtrl',
         ctrl.getPatients();
         ctrl.getResourceCounts();
         ctrl.getConformance();
+        ctrl.getServerInfo();
       });
     } else {
       ctrl.getPatients();
       ctrl.getResourceCounts();
       ctrl.getConformance();
+      ctrl.getServerInfo();
     };
 
   });

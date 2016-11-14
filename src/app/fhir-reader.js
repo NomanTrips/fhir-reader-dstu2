@@ -8,46 +8,6 @@ var fhirReader = angular.module('fhirReader', [
   'firebase',
 ])
   .constant('ENDPOINT_URI', 'https://fhir-reader.firebaseio.com/')
-  .directive('contentsButton', ['$location', '$anchorScroll', function (location, anchorScroll) {
-    return {
-      // can be used as attribute or element
-      restrict: 'AE',
-      scope: {
-        section: '=',
-        controllerGetSelected: '&getFn',
-        controllerSetSelected: '&setFn'
-      },
-      // which markup this directive generates
-      template: '<md-list-item>' +
-      '<md-button class="md-raised md-primary md-hue-1" ng-click="tableOfContentButtonClick()" ng-class="isSelectedSection() ? \'selected\' : \'unselected\'">' +
-      '{{sectionName()}}' +
-      '</md-button>' +
-      '</md-list-item>',
-      link: function (scope, element, attrs) {
-        scope.sectionName = function () {
-          return scope.section;
-        }
-
-        scope.isSelectedSection = function () {
-          var selectedSection = scope.controllerGetSelected({ arg1: scope.section });
-          if (selectedSection == scope.section) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-
-        scope.tableOfContentButtonClick = function () {
-          scope.controllerSetSelected({ arg1: scope.section });
-          var old = location.hash();
-          location.hash(scope.section);
-          anchorScroll();
-          location.hash(old);
-        }
-
-      }
-    };
-  }])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/server-report');
 
@@ -83,6 +43,8 @@ fhirReader.config(function ($mdThemingProvider, $mdIconProvider) {
     .icon("list", "./assets/svg/list.svg", 24)
     .icon("settings-work-tool", "./assets/svg/settings-work-tool.svg", 24)
     .icon("expand", "./assets/svg/expand.svg", 24)
+    .icon("rightarrow", "./assets/svg/rightarrow.svg", 24)
+    .icon("cancel", "./assets/svg/cancel.svg", 24)
     .icon("collapse", "./assets/svg/collapse.svg", 24);
 
   $mdThemingProvider.theme('default')

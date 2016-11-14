@@ -21,13 +21,13 @@ fhirReader.controller('SettingsDialogCtrl',
     };
 
     ctrl.cancel = function () {
-      $mdDialog.cancel();
+      $mdDialog.hide();
     };
 
-    ctrl.answer = function (answer) {
+    ctrl.save = function () {
       ctrl.server.baseUrl = ctrl.baseUrl;
       ServerConnectionModel.update(ctrl.server);
-      $mdDialog.hide(answer);
+      $mdDialog.hide();
     };
 
     ctrl.getServerInfo();

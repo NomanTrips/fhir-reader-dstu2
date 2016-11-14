@@ -30,7 +30,6 @@
     "live-server": "^0.9.1"
   },
   "scripts": {
-    "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1"
   }
 }

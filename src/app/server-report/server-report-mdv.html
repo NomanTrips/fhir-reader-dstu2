@@ -1,148 +1,127 @@
-<div  id="loadingbar" ng-hide="resources.loadingBarIncrement > 100">
-  <md-progress-linear md-mode="determinate" value="{{resources.loadingBarIncrement}}" md-theme="dark-yellow">
-  </md-progress-linear>
+<div id="loadingbar" ng-hide="resources.loadingBarIncrement > 100">
+	<md-progress-linear md-mode="determinate" value="{{resources.loadingBarIncrement}}" md-theme="dark-yellow">
+	</md-progress-linear>
 </div>
 
 <div flex layout="row">
 
-  <md-sidenav  class="md-sidenav-left" md-whiteframe="4" ng-click="ul.toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left" >
+	<md-sidenav class="md-sidenav-left" md-whiteframe="4" ng-click="ul.toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left">
 
-    <md-toolbar class="md-toolbar-tools md-primary">
-      <div flex="50">
-        <h3 >
-          FHIR-reader
-        </h3>
-      </div>
-      <div flex="50"  layout-sm="column" layout-align="space-around" id="loadingcircle" ng-hide="resources.loadingBarIncrement > 100">
-        <md-progress-circular md-mode="indeterminate" md-theme="dark-yellow" md-diameter="20px">
-        </md-progress-circular>
-      </div>
-    </md-toolbar>
+		<md-toolbar class="md-toolbar-tools md-primary">
+			<div flex="50">
+				<h3>
+					FHIR-reader
+				</h3>
+			</div>
+			<div flex="50" layout-sm="column" layout-align="space-around" id="loadingcircle" ng-hide="resources.loadingBarIncrement > 100">
+				<md-progress-circular md-mode="indeterminate" md-theme="dark-yellow" md-diameter="20px">
+				</md-progress-circular>
+			</div>
+		</md-toolbar>
 
-  <div layout="column" ng-cloak="" class="autocompletedemoCustomTemplate">
-    <form ng-submit="$event.preventDefault()">
-      <md-autocomplete 
-        class="autocompletable" 
-        ng-disabled="ctrl.isDisabled" 
-        md-no-cache="ctrl.noCache" 
-        md-selected-item="ctrl.selectedItem" 
-        md-search-text-change="resources.setSearchText(ctrl.searchText)" 
-        md-search-text="ctrl.searchText" 
-        md-selected-item-change="resources.navToPatient(entry.resource.id)" 
-        md-items="entry in resources.patientEntries | orderBy:'resource.name[0].family' | filter:ctrl.searchText" 
-        md-item-text="entry.resource.name[0].given" 
-        md-min-length="3" 
-        placeholder="Enter patient name" 
-        md-menu-class="autocompletable-contents">
-        <md-item-template >
-          <span md-highlight-text="ctrl.searchText" md-highlight-flags="i" class="item-title">
-             {{entry.resource.name[0].family + ', ' +  entry.resource.name[0].given}}  
+		<div layout="column" ng-cloak="" class="autocompletedemoCustomTemplate">
+			<form ng-submit="$event.preventDefault()">
+				<md-autocomplete class="autocompletable" ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem"
+					md-search-text-change="resources.setSearchText(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="resources.navToPatient(entry.resource.id)"
+					md-items="entry in resources.patientEntries | orderBy:'resource.name[0].family' | filter:ctrl.searchText" md-item-text="entry.resource.name[0].given"
+					md-min-length="3" placeholder="Enter patient name" md-menu-class="autocompletable-contents">
+					<md-item-template>
+						<span md-highlight-text="ctrl.searchText" md-highlight-flags="i" class="item-title">
+             {{entry.resource.name[0].family + ', ' +  entry.resource.name[0].given}}
           </span>
-          <span class="item-metadata">
+						<span class="item-metadata">
             <span>
-              <strong> {{entry.resource.gender}} &nbsp;&nbsp;&nbsp;&nbsp; {{entry.resource.birthDate}}</strong>
+              {{entry.resource.gender}}
             </span>
-          </span>
-        </md-item-template>
-        <md-not-found>
-          <span>No patients matching: "{{ctrl.searchText}}" found.</span>
-        </md-not-found>
-      </md-autocomplete>
-    </form>
-</div>
+						<span ng-show="entry.resource.birthDate">
+              <b>DOB: </b> {{entry.resource.birthDate}}
+            </span>
+						</span>
+					</md-item-template>
+					<md-not-found>
+						<span>No patients matching: "{{ctrl.searchText}}" found.</span>
+					</md-not-found>
+				</md-autocomplete>
+			</form>
+		</div>
 
-<div style="padding-top:100px;">
-<md-subheader  md-theme="dark-grey">Connection settings:</md-subheader>
-</div>
+		<div style="padding-top:100px;">
+			<md-subheader md-theme="dark-grey">Connection settings:</md-subheader>
+		</div>
 
-<div layout="row" layout-align="left center"><md-input-container >
-        <label>Fhir server</label>
-        <md-select ng-model="resources.selectedServer" md-selected-text="resources.getSelectedServer()">
-          <md-optgroup label="fhir server">
-            <md-option ng-value="server" ng-repeat="server in resources.servers.servers" ng-click="resources.setSelectedServer(server)">{{server.server.name}}</md-option>
-          </md-optgroup>
-        </md-select>
-      </md-input-container>
- <md-button class="md-icon-button md-primary md-raised" aria-label="Settings" ng-click="resources.showFhirSettings($event)">
-        <md-icon md-svg-icon="settings-work-tool"></md-icon>
-        <md-tooltip md-direction="right">Change server settings</md-tooltip>
-      </md-button>
-</div>
+		<div layout="row" layout-align="left center">
 
-<div layout="row" layout-align="left center">
-          <md-input-container  >
-            <label>Client name:</label>
-            <input ng-model="resources.clientName" disabled="">
+			<md-input-container class="md-block" flex>
+				<label>Fhir server:</label>
+				<input ng-model="resources.baseUrl" disabled="">
 
-          </md-input-container>
+			</md-input-container>
+			<md-button class="md-icon-button md-primary md-raised" aria-label="Settings" ng-click="resources.showFhirSettings($event)">
+				<md-icon md-svg-icon="settings-work-tool"></md-icon>
+				<md-tooltip md-direction="right">Change server settings</md-tooltip>
+			</md-button>
 
-</div>
+		</div>
 
-<md-subheader >Client permissions:</md-subheader>
-    <md-chips>
-      <md-chip>patient/*.read</md-chip>
-      <md-chip>condition/*.read</md-chip>
-      <md-chip>observation/*.read</md-chip>
-      <md-chip>medication/*.read</md-chip>
-    </md-chips>
+		<div layout="row" layout-align="left center">
+			<md-input-container>
+				<label>Client name:</label>
+				<input ng-model="resources.clientName" disabled="">
 
-  </md-sidenav>
+			</md-input-container>
 
+		</div>
 
+		<md-subheader>Client permissions:</md-subheader>
+		<md-chips>
+			<md-chip>patient/*.read</md-chip>
+			<md-chip>condition/*.read</md-chip>
+			<md-chip>observation/*.read</md-chip>
+			<md-chip>medication/*.read</md-chip>
+		</md-chips>
 
-  <md-content flex layout="row" layout-align="center center" >
-<div layout="column" layout-fill layout-padding >
-      
+	</md-sidenav>
 
 
-<md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch="" >
-  <div layout="row">
-        <toggle-sidenav></toggle-sidenav>
 
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Server at a glance: </span>
-          </md-card-title-text>
-        </md-card-title>
-  </div>
-        <md-card-content layout="column" layout-align="space-between">
+	<md-content flex layout="row" layout-align="center center">
+		<div layout="column" layout-fill layout-padding>
 
-<div layout="column">
-<md-subheader>Available resource types</md-subheader>
-    <md-chips>
-      <md-chip>Patient ({{resources.patientCount}})</md-chip>
-      <md-chip>Encounter ({{resources.encounterCount}})</md-chip>
-      <md-chip>Condition ({{resources.conditionCount}})</md-chip>
-      <md-chip>Medication Order ({{resources.medicationOrderCount}})</md-chip>
-      <md-chip>Observation ({{resources.observationCount}})</md-chip>
-      <md-chip>Procedure ({{resources.procedureCount}})</md-chip>
-    </md-chips>
-</div>
-<div layout="column">
 
-<md-subheader>Publisher & Contact</md-subheader>
-  <h3>{{resources.publisher}}</h3>
-  <span ng-show="resources.formats"><b>Supported formats:</b> {{resources.formats}}</span>
-  <span  ng-show="resources.fhirVersion"><b>FHIR version:</b> {{resources.fhirVersion}}</span>
-</div>
-          <md-card-actions layout="column">
-            <md-button class="md-icon-button" aria-label="Favorite">
-              <md-icon md-svg-icon=""></md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Settings">
-              <md-icon md-svg-icon=""></md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Share">
-              <md-icon md-svg-icon=""></md-icon>
-            </md-button>
-          </md-card-actions>
 
-        </md-card-content>
-      </md-card>
-</div>
+			<md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch="">
+				<div layout="row">
+					<toggle-sidenav></toggle-sidenav>
+				</div>
 
-    
-  </md-content>
+				<md-card-content layout="column" layout-align="space-between">
+					<md-subheader class="md-accent">Publisher & Contact</md-subheader>
+					<div layout="column">
+
+						<h3>{{resources.publisher}}</h3>
+						<span ng-show="resources.formats"><b>Supported formats:</b> {{resources.formats}}</span>
+						<span ng-show="resources.fhirVersion"><b>FHIR version:</b> {{resources.fhirVersion}}</span>
+					</div>
+					<md-subheader class="md-accent">Available resource types</md-subheader>
+					<div layout="column">
+
+						<md-chips>
+							<md-chip>Patient ({{resources.patientCount}})</md-chip>
+							<md-chip>Encounter ({{resources.encounterCount}})</md-chip>
+							<md-chip>Condition ({{resources.conditionCount}})</md-chip>
+							<md-chip>Medication Order ({{resources.medicationOrderCount}})</md-chip>
+							<md-chip>Observation ({{resources.observationCount}})</md-chip>
+							<md-chip>Procedure ({{resources.procedureCount}})</md-chip>
+						</md-chips>
+					</div>
+
+
+				</md-card-content>
+			</md-card>
+		</div>
+
+
+	</md-content>
 
 </div>
 
