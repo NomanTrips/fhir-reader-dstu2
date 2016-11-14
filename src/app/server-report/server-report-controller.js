@@ -26,12 +26,12 @@ fhirReader.controller('ServerReportCtrl',
       ctrl.searchText = text;
     }
     
-    ctrl.clientName = 'Tarrytown Surgery';
 
     ctrl.getServerInfo = function () {
       ServerConnectionModel.getServerInfo().then(function (data) {
         ctrl.server = (data !== 'null') ? data : {};
         ctrl.baseUrl = (data.baseUrl !== 'null') ? data.baseUrl : '';
+        ctrl.clientName = (data.clientName !== 'null') ? data.clientName : '';
       });
     };
 
