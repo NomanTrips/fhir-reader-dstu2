@@ -21,6 +21,7 @@ fhirReader.controller('ServerReportCtrl',
           ctrl.patientEntries = entries.entry;
         });
     }
+    
 
     function setSearchText(text) {
       ctrl.searchText = text;
