@@ -1,7 +1,7 @@
 'use strict';
 
 fhirReader.controller('SettingsDialogCtrl',
-  function ($mdDialog, ServerConnectionModel) {
+  function ($mdDialog, ServerConnectionModel, LocalStorageModel) {
     var ctrl = this;
     ctrl.server;
     ctrl.baseUrl;
@@ -20,16 +20,24 @@ fhirReader.controller('SettingsDialogCtrl',
       });
     };
 
+    ctrl.getLocalStorageServerInfo = function () {
+        ctrl.server = LocalStorageModel.getServerInfo();
+        ctrl.baseUrl = (ctrl.server.baseUrl !== 'null') ? ctrl.server.baseUrl : '';
+        ctrl.clientName = (ctrl.server.clientName !== 'null') ? ctrl.server.clientName : '';
+    };
+
     ctrl.cancel = function () {
       $mdDialog.hide();
     };
 
     ctrl.save = function () {
       ctrl.server.baseUrl = ctrl.baseUrl;
-      ServerConnectionModel.update(ctrl.server);
+      //ServerConnectionModel.update(ctrl.server);
+      LocalStorageModel.update(ctrl.server);
       $mdDialog.hide();
     };
 
-    ctrl.getServerInfo();
+    //ctrl.getServerInfo();
+    ctrl.getLocalStorageServerInfo();
 
   });

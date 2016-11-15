@@ -6,6 +6,7 @@ var fhirReader = angular.module('fhirReader', [
   'angularSpinner',
   'ngSanitize',
   'firebase',
+  'ngStorage',
 ])
   .constant('ENDPOINT_URI', 'https://fhir-reader.firebaseio.com/')
   .config(function ($stateProvider, $urlRouterProvider) {
