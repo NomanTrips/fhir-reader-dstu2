@@ -192,6 +192,14 @@ label.button-text {
   height: 18px;
   width: 18px; }
 
+.fabSpeedDialdemoMoreOptions md-fab-speed-dial {
+  margin-top: 0px;
+  right:5px;
+}
+.fabSpeedDialdemoMoreOptions .md-fab-top-right {
+  top: 5px; 
+  
+  }
 
 /*
 Copyright 2016 Google Inc. All Rights Reserved. 

@@ -17,7 +17,15 @@ var fhirReader = angular.module('fhirReader', [
         url: '/server',
         templateUrl: 'app/server-report/server-report-mdv.html',
         controller: 'ServerReportCtrl',
-        controllerAs: 'resources'
+        controllerAs: 'resources',
+        resolve: {
+          // controller will not be loaded until $waitForSignIn resolves
+          // Auth refers to our $firebaseAuth wrapper in the factory below
+          "currentAuth": ["Auth", function (Auth) {
+            // $waitForSignIn returns a promise so the resolve waits for it to complete
+            return Auth.authObj.$waitForSignIn();
+          }]
+        }
       })
       .state('patients', {
         url: '/patients/:id',
@@ -46,6 +54,9 @@ fhirReader.config(function ($mdThemingProvider, $mdIconProvider) {
     .icon("expand", "./assets/svg/expand.svg", 24)
     .icon("rightarrow", "./assets/svg/rightarrow.svg", 24)
     .icon("cancel", "./assets/svg/cancel.svg", 24)
+    .icon("account", "./assets/svg/account.svg", 36)
+    .icon("sign-out", "./assets/svg/sign-out.svg", 24)
+    .icon("google", "./assets/svg/google.svg", 36)
     .icon("collapse", "./assets/svg/collapse.svg", 24);
 
   $mdThemingProvider.theme('default')

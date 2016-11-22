@@ -1,10 +1,11 @@
 'use strict';
 
-fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel) {
+fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel, Auth) {
   self = this;
   // var self.baseUrl = 'http://www.fhirbridge.net/';
   self.server;
   self.baseUrl;
+  self.clientName;
   self.connectionInfoResolved = false;
 
   function getSearchURL(resourceType, searchString) {
@@ -68,15 +69,21 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel) {
     initConnectionInfo: function () {
       var deferred = $q.defer();
 
-      ServerConnectionModel.getServerInfo()
-        .then(function (data) {
-          self.server = (data !== 'null') ? data : {};
-          self.baseUrl = (data.baseUrl !== 'null') ? data.baseUrl : '';
-          deferred.resolve();
-          self.connectionInfoResolved = true;
-        }, function () {
-          //ctrl.resetForm();
+      self.server = {};
+      var settings = Auth.getFhirSettings();
+
+      settings.$loaded().then(function () {
+        angular.forEach(settings, function (value, key) {
+          self.server[key] = value;
         });
+
+        self.baseUrl = (settings.baseUrl !== 'null') ? settings.baseUrl : '';
+        self.clientName = (settings.clientName !== 'null') ? settings.clientName : '';
+                  
+        deferred.resolve();
+        self.connectionInfoResolved = true;
+
+      });
 
       return deferred.promise;
     },

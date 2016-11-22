@@ -7,15 +7,41 @@
 
 	<md-sidenav class="md-sidenav-left" md-whiteframe="4" ng-click="ul.toggleList()" md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left">
 
-		<md-toolbar class="md-toolbar-tools md-primary">
-			<div flex="50">
-				<h3>
-					FHIR-reader
-				</h3>
-			</div>
-			<div flex="50" layout-sm="column" layout-align="space-around" id="loadingcircle" ng-hide="resources.loadingBarIncrement > 100">
-				<md-progress-circular md-mode="indeterminate" md-theme="dark-yellow" md-diameter="20px">
-				</md-progress-circular>
+		<md-toolbar class="md-primary">
+			<div class="md-toolbar-tools" layout="row">
+				<div flex="50">
+					<h3>
+						FHIR-reader
+					</h3>
+				</div>
+				<div flex="25">
+					<div layout-sm="column" layout-align="space-around" id="loadingcircle" ng-hide="resources.loadingBarIncrement > 100">
+						<md-progress-circular md-mode="indeterminate" md-theme="dark-yellow" md-diameter="20px">
+						</md-progress-circular>
+					</div>
+				</div>
+				<md-menu>
+					<md-button aria-label="Sign-in" class="md-icon-button md-accent md-hue-1 md-raised" ng-click="resources.openMenu($mdOpenMenu, $event)"
+						ng-mouseenter="resources.isOpen=true" ng-mouseleave="resources.isOpen=false">
+						<md-tooltip md-direction="top" md-visible="resources.isOpen">User account</md-tooltip>
+						<md-icon md-menu-origin="" md-svg-src="{{resources.account.icon}}"></md-icon>
+					</md-button>
+					<md-menu-content width="4">
+						<md-menu-item ng-show="resources.authItems.google.show">
+							<md-button ng-click="resources.authEvent(resources.authItems.google)">
+								<md-icon md-svg-src="{{resources.authItems.google.icon}}" md-menu-align-target=""></md-icon>
+								Sign in using Google.
+							</md-button>
+						</md-menu-item>
+						<md-menu-item ng-show="resources.authItems.signout.show">
+							<md-button ng-click="resources.authEvent(resources.authItems.signout)">
+								<md-icon md-svg-src="{{resources.authItems.signout.icon}}"></md-icon>
+								Sign-out
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+
 			</div>
 		</md-toolbar>
 

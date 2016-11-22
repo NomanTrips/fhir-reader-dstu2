@@ -1,15 +1,74 @@
 'use strict';
 
 fhirReader.controller('ServerReportCtrl',
-  function ($mdSidenav, $location, FhirModel, $timeout, $q, $mdDialog, $mdMedia, ServerConnectionModel) {
+  function ($mdSidenav, $location, FhirModel, $timeout, $q, $mdDialog, $mdMedia, ServerConnectionModel, Auth) {
     var ctrl = this;
     ctrl.loadingBarIncrement = 30;
-
     ctrl.status = '  ';
     ctrl.customFullscreen = false;
     ctrl.server;
     ctrl.baseUrl;
     ctrl.setSearchText = setSearchText;
+    var originatorEv;
+    ctrl.isOpen = false;
+
+    ctrl.account = {
+      icon: "account"
+    }
+
+    ctrl.authItems = {
+      default: { name: "Default user", icon: "account", direction: "bottom", show: "true" },
+      google: { name: "Google", icon: "google", direction: "top", show: "true" },
+      signout: { name: "Sign out", icon: "sign-out", direction: "bottom", show: "false" }
+    };
+
+    //github: { name: "Github", icon: "img/icons/hangout.svg", direction: "bottom", show: "true" },
+
+    ctrl.authEvent = function (authItem) {
+      if (authItem.name == 'Sign out') {
+        Auth.authObj.$signOut();
+        ctrl.authItems.default.show = true;
+        ctrl.authItems.google.show = true;
+        //ctrl.authItems.github.show = true;
+        ctrl.authItems.signout.show = false;
+        ctrl.account.icon = "account";
+      } else {
+        Auth.authenticate(authItem.name).then(function (result) {
+          //console.log("Signed in as:", result.user.uid);
+          ctrl.authItems.default.show = false;
+          ctrl.authItems.google.show = false;
+          //ctrl.authItems.github.show = false;
+          ctrl.authItems.signout.show = true;
+          ctrl.account.icon = "google";
+        }).catch(function (error) {
+          console.error("Authentication failed:", error);
+        });
+      }
+    }
+
+    ctrl.openMenu = function ($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
+    };
+
+
+
+    ctrl.initProfile = function () {
+
+      var firebaseUser = Auth.authObj.$getAuth();
+
+      if (firebaseUser) {
+        console.log("Signed in as:", firebaseUser.uid);
+        ctrl.authItems.default.show = false;
+        ctrl.authItems.google.show = false;
+        //ctrl.authItems.github.show = false;
+        ctrl.authItems.signout.show = true;
+        ctrl.account.icon = "google";
+      } else {
+        console.log("Signed out");
+      }
+
+    }
 
     ctrl.toggleSideNav = function () {
       $mdSidenav('left').toggle();
@@ -21,18 +80,20 @@ fhirReader.controller('ServerReportCtrl',
           ctrl.patientEntries = entries.entry;
         });
     }
-    
+
     function setSearchText(text) {
       ctrl.searchText = text;
     }
-    
+
+    ctrl.authenticate = function () {
+      Auth.authenticate();
+      //console.log(Auth.authObj);
+    }
 
     ctrl.getServerInfo = function () {
-      ServerConnectionModel.getServerInfo().then(function (data) {
-        ctrl.server = (data !== 'null') ? data : {};
-        ctrl.baseUrl = (data.baseUrl !== 'null') ? data.baseUrl : '';
-        ctrl.clientName = (data.clientName !== 'null') ? data.clientName : '';
-      });
+      ctrl.server = (FhirModel.server !== 'null') ? FhirModel.server : {};
+      ctrl.baseUrl = (FhirModel.baseUrl !== 'null') ? FhirModel.baseUrl : '';
+      ctrl.clientName = (FhirModel.clientName !== 'null') ? FhirModel.clientName : '';
     };
 
     ctrl.navToPatient = function (id) {
@@ -110,7 +171,7 @@ fhirReader.controller('ServerReportCtrl',
 
     }
 
-    ctrl.getConformance = function (){
+    ctrl.getConformance = function () {
       FhirModel.fhirSearch('metadata')
         .then(function (conf) {
           ctrl.publisher = conf.publisher;
@@ -128,12 +189,14 @@ fhirReader.controller('ServerReportCtrl',
         ctrl.getResourceCounts();
         ctrl.getConformance();
         ctrl.getServerInfo();
+        ctrl.initProfile();
       });
     } else {
       ctrl.getPatients();
       ctrl.getResourceCounts();
       ctrl.getConformance();
       ctrl.getServerInfo();
+      ctrl.initProfile();
     };
 
   });
