@@ -21,9 +21,9 @@
 					</div>
 				</div>
 				<md-menu>
-					<md-button aria-label="Sign-in" class="md-icon-button md-accent md-hue-1 md-raised" ng-click="resources.openMenu($mdOpenMenu, $event)"
+					<md-button aria-label="Sign-in" class="md-icon-button md-accent md-warn md-raised" ng-click="resources.openMenu($mdOpenMenu, $event)"
 						ng-mouseenter="resources.isOpen=true" ng-mouseleave="resources.isOpen=false">
-						<md-tooltip md-direction="top" md-visible="resources.isOpen">User account</md-tooltip>
+						<md-tooltip md-direction="left" md-visible="resources.isOpen">{{resources.account.name}}</md-tooltip>
 						<md-icon md-menu-origin="" md-svg-src="{{resources.account.icon}}"></md-icon>
 					</md-button>
 					<md-menu-content width="4">
@@ -47,7 +47,7 @@
 
 		<div layout="column" ng-cloak="" class="autocompletedemoCustomTemplate">
 			<form ng-submit="$event.preventDefault()">
-				<md-autocomplete class="autocompletable" ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem"
+				<md-autocomplete class="autocompletable" ng-disabled="! resources.connected" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem"
 					md-search-text-change="resources.setSearchText(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="resources.navToPatient(entry.resource.id)"
 					md-items="entry in resources.patientEntries | orderBy:'resource.name[0].family' | filter:ctrl.searchText" md-item-text="entry.resource.name[0].given"
 					md-min-length="3" placeholder="Enter patient name" md-menu-class="autocompletable-contents">
@@ -117,8 +117,12 @@
 				<div layout="row">
 					<toggle-sidenav></toggle-sidenav>
 				</div>
+				
+				<md-card-content layout="column" layout-align="space-between" ng-show="! resources.connected">
+					<md-subheader class="md-warn">Not connected to a FHIR server!</md-subheader>
+				</md-card-content>
 
-				<md-card-content layout="column" layout-align="space-between">
+				<md-card-content layout="column" layout-align="space-between" ng-show="resources.connected">
 					<md-subheader class="md-accent">Publisher & Contact</md-subheader>
 					<div layout="column">
 

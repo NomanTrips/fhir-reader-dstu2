@@ -54,7 +54,7 @@ fhirReader.config(function ($mdThemingProvider, $mdIconProvider) {
     .icon("expand", "./assets/svg/expand.svg", 24)
     .icon("rightarrow", "./assets/svg/rightarrow.svg", 24)
     .icon("cancel", "./assets/svg/cancel.svg", 24)
-    .icon("account", "./assets/svg/account.svg", 36)
+    .icon("account", "./assets/svg/account_white.svg", 36)
     .icon("sign-out", "./assets/svg/sign-out.svg", 24)
     .icon("google", "./assets/svg/google.svg", 36)
     .icon("collapse", "./assets/svg/collapse.svg", 24);

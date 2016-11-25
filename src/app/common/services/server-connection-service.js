@@ -44,7 +44,7 @@ fhirReader.service('ServerConnection', function ($q, LocalStorageModel, Auth) {
         getServer: function () {
             return service.server;
         },
-        getclientName: function () {
+        getClientName: function () {
             return service.clientName;
         }
     }

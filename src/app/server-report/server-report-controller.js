@@ -11,16 +11,15 @@ fhirReader.controller('ServerReportCtrl',
     ctrl.setSearchText = setSearchText;
     var originatorEv;
     ctrl.isOpen = false;
-
-    ctrl.account = {
-      icon: "account"
-    }
+    ctrl.connected = false;
 
     ctrl.authItems = {
       default: { name: "Default user", icon: "account", direction: "bottom", show: "true" },
       google: { name: "Google", icon: "google", direction: "top", show: "true" },
       signout: { name: "Sign out", icon: "sign-out", direction: "bottom", show: "false" }
     };
+
+    ctrl.account = ctrl.authItems.default;
 
     //github: { name: "Github", icon: "img/icons/hangout.svg", direction: "bottom", show: "true" },
 
@@ -31,7 +30,7 @@ fhirReader.controller('ServerReportCtrl',
         ctrl.authItems.google.show = true;
         //ctrl.authItems.github.show = true;
         ctrl.authItems.signout.show = false;
-        ctrl.account.icon = "account";
+        ctrl.account = ctrl.authItems.default;
       } else {
         Auth.authenticate(authItem.name).then(function (result) {
           //console.log("Signed in as:", result.user.uid);
@@ -39,7 +38,7 @@ fhirReader.controller('ServerReportCtrl',
           ctrl.authItems.google.show = false;
           //ctrl.authItems.github.show = false;
           ctrl.authItems.signout.show = true;
-          ctrl.account.icon = "google";
+          ctrl.account = ctrl.authItems.google;
         }).catch(function (error) {
           console.error("Authentication failed:", error);
         });
@@ -63,8 +62,10 @@ fhirReader.controller('ServerReportCtrl',
         ctrl.authItems.google.show = false;
         //ctrl.authItems.github.show = false;
         ctrl.authItems.signout.show = true;
-        ctrl.account.icon = "google";
+        ctrl.account = ctrl.authItems.google;
       } else {
+        ctrl.authItems.signout.show = false;
+        ctrl.account = ctrl.authItems.default;
         console.log("Signed out");
       }
 
@@ -177,11 +178,18 @@ fhirReader.controller('ServerReportCtrl',
 
 
     ServerConnection.initServerInfo().then(function () {
-      console.log();
       ctrl.initProfile();
-      ctrl.getPatients();
-      ctrl.getResourceCounts();
-      ctrl.getConformance();
+      //console.log(ServerConnection.getBaseUrl());
+      if (ServerConnection.getBaseUrl() != undefined && ServerConnection.getBaseUrl() != '' ) {
+        ctrl.getPatients();
+        ctrl.getResourceCounts();
+        ctrl.getConformance();
+        ctrl.connected = true;
+      } else {
+        ctrl.connected = false;
+        ctrl.loadingBarIncrement = 110;
+      }
+
     })
 
   });

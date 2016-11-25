@@ -44,10 +44,8 @@ fhirReader.factory('Auth', function (firebase, $firebaseAuth, ENDPOINT_URI, $fir
                         .then(function (data) {
                             console.log(data.$value); // true
                             if (typeof data.$value != 'undefined' && data.$value === null) {
-                                console.log('set to true');
                                 isNew = true;
                             } else {
-                                console.log('set to false');
                                 isNew = false;
                             }
                             if (authData && isNew) {
@@ -69,7 +67,6 @@ fhirReader.factory('Auth', function (firebase, $firebaseAuth, ENDPOINT_URI, $fir
                             isNew = false;
 
                         });
-
 
                 })
             }

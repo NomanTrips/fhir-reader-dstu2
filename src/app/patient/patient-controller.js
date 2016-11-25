@@ -6,6 +6,7 @@ fhirReader.controller('PatientCtrl',
     var section = '';
     ctrl.loadingBarIncrement = 30;
     ctrl.showChildren = false;
+    ctrl.connected = false;
 
     ctrl.sections = [
       { name: "Patient Information" },
@@ -114,7 +115,15 @@ fhirReader.controller('PatientCtrl',
     }
 
     ServerConnection.initServerInfo().then(function () {
-      ctrl.getPatientDetails();
+
+      if (ServerConnection.getBaseUrl() != undefined && ServerConnection.getBaseUrl() != '') {
+        ctrl.connected = true;
+        ctrl.getPatientDetails();
+      } else {
+        ctrl.connected = false;
+        ctrl.loadingBarIncrement = 110;
+      }
+
     })
 
   });

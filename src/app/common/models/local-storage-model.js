@@ -12,11 +12,14 @@ fhirReader.service('LocalStorageModel', function ($localStorage) {
             clientSecret: ""
         }
     }
+    //console.log('creating local store');
 
-    service.create();
 
     return {
         getServerInfo: function () {
+            if (service.$storage.serverInfo == undefined) {
+                service.create();
+            }
             return service.$storage.serverInfo;
         },
         update: function (serverInfo) {
