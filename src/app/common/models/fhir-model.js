@@ -1,18 +1,14 @@
 'use strict';
 
-fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel, Auth) {
+fhirReader.factory("FhirModel", function ($http, $q, ServerConnection, Auth, LocalStorageModel) {
   self = this;
-  // var self.baseUrl = 'http://www.fhirbridge.net/';
-  self.server;
-  self.baseUrl;
-  self.clientName;
   self.connectionInfoResolved = false;
 
   function getSearchURL(resourceType, searchString) {
     if (searchString !== undefined) {
-      var url = self.baseUrl + resourceType + '?' + searchString;
+      var url = ServerConnection.getBaseUrl() + resourceType + '?' + searchString;
     } else {
-      var url = self.baseUrl + resourceType
+      var url = ServerConnection.getBaseUrl() + resourceType
     }
     return {
       method: 'GET',
@@ -26,7 +22,7 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel, Auth
   function getSearchByIdURL(resourceType, searchId) {
     return {
       method: 'GET',
-      url: self.baseUrl + resourceType,
+      url: ServerConnection.getBaseUrl() + resourceType,
       headers: {
         'Accept': 'application/json; charset=UTF-8'
       },
@@ -37,7 +33,7 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel, Auth
   function getGetByIdURL(resourceType, searchId) {
     return {
       method: 'GET',
-      url: self.baseUrl + resourceType + '/' + searchId,
+      url: ServerConnection.getBaseUrl() + resourceType + '/' + searchId,
       headers: {
         'Accept': 'application/json; charset=UTF-8'
       },
@@ -54,39 +50,6 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel, Auth
   }
 
   return {
-
-    /**
-      getServerInfo: function (){
-        return ServerConnectionModel.getServerInfo()
-        .then(function (result) {
-          self.server = (result !== 'null') ? result : {};
-          self.baseUrl = (result.baseUrl !== 'null') ? result.baseUrl : '';
-        }, function () {
-          //ctrl.resetForm();
-        });
-      },
-     */
-    initConnectionInfo: function () {
-      var deferred = $q.defer();
-
-      self.server = {};
-      var settings = Auth.getFhirSettings();
-
-      settings.$loaded().then(function () {
-        angular.forEach(settings, function (value, key) {
-          self.server[key] = value;
-        });
-
-        self.baseUrl = (settings.baseUrl !== 'null') ? settings.baseUrl : '';
-        self.clientName = (settings.clientName !== 'null') ? settings.clientName : '';
-                  
-        deferred.resolve();
-        self.connectionInfoResolved = true;
-
-      });
-
-      return deferred.promise;
-    },
     isConnectionInfoResolved: function () {
       return self.connectionInfoResolved;
     },
@@ -105,39 +68,3 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnectionModel, Auth
   }
 
 });
-
-fhirReader.factory("ServerConn", function () {
-  var self = this;
-  self.baseUrl = '';
-  return {
-    setBaseUrl: function (url) {
-      self.baseUrl = url;
-    },
-    getBaseUrl: function () {
-      return self.baseUrl;
-    },
-
-    authServerURL: function () {
-      return "http://www.mitre.auth.com"
-    },
-
-    clientName: function () {
-      return "tarrytown-surgery-fhir"
-    },
-
-    clientSecret: function () {
-      return "tarrytown-surgery-fhir"
-    }
-
-  }
-
-});
-
-//fhirReader.factory('ProcedureList',
-  //function ($resource) {
-    //return $resource('http://www.fhirbridge.net/Procedure?subject=:id', {}, {
-      //query: { method: 'GET', params: { id: 'patients' }, isArray: false, headers: { 'Accept': 'application/json; charset=UTF-8' } }
-    //});
-  //});
-
-

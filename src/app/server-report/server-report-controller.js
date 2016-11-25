@@ -1,13 +1,13 @@
 'use strict';
 
 fhirReader.controller('ServerReportCtrl',
-  function ($mdSidenav, $location, FhirModel, $timeout, $q, $mdDialog, $mdMedia, ServerConnectionModel, Auth) {
+  function ($mdSidenav, $location, FhirModel, $timeout, $q, $mdDialog, $mdMedia, ServerConnection, Auth) {
     var ctrl = this;
     ctrl.loadingBarIncrement = 30;
     ctrl.status = '  ';
     ctrl.customFullscreen = false;
-    ctrl.server;
-    ctrl.baseUrl;
+    ctrl.server = ServerConnection.server;
+    ctrl.baseUrl = ServerConnection.baseUrl;
     ctrl.setSearchText = setSearchText;
     var originatorEv;
     ctrl.isOpen = false;
@@ -90,17 +90,10 @@ fhirReader.controller('ServerReportCtrl',
       //console.log(Auth.authObj);
     }
 
-    ctrl.getServerInfo = function () {
-      ctrl.server = (FhirModel.server !== 'null') ? FhirModel.server : {};
-      ctrl.baseUrl = (FhirModel.baseUrl !== 'null') ? FhirModel.baseUrl : '';
-      ctrl.clientName = (FhirModel.clientName !== 'null') ? FhirModel.clientName : '';
-    };
-
     ctrl.navToPatient = function (id) {
       var url = '/patients/' + id;
       $location.path(url);
     };
-
 
     ctrl.showFhirSettings = function (ev) {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
@@ -183,21 +176,13 @@ fhirReader.controller('ServerReportCtrl',
     }
 
 
-    if (!FhirModel.isConnectionInfoResolved()) {
-      FhirModel.initConnectionInfo().then(function () {
-        ctrl.getPatients();
-        ctrl.getResourceCounts();
-        ctrl.getConformance();
-        ctrl.getServerInfo();
-        ctrl.initProfile();
-      });
-    } else {
+    ServerConnection.initServerInfo().then(function () {
+      console.log();
+      ctrl.initProfile();
       ctrl.getPatients();
       ctrl.getResourceCounts();
       ctrl.getConformance();
-      ctrl.getServerInfo();
-      ctrl.initProfile();
-    };
+    })
 
   });
 

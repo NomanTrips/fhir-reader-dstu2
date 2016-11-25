@@ -1,7 +1,7 @@
 'use strict';
 
 fhirReader.controller('PatientCtrl',
-  function ($stateParams, FhirModel, $interval, $location, $anchorScroll) {
+  function ($stateParams, FhirModel, $interval, $location, $anchorScroll, ServerConnection) {
     var ctrl = this;
     var section = '';
     ctrl.loadingBarIncrement = 30;
@@ -113,13 +113,9 @@ fhirReader.controller('PatientCtrl',
         });
     }
 
-    if (!FhirModel.isConnectionInfoResolved()) {
-      FhirModel.initConnectionInfo().then(function () {
-        ctrl.getPatientDetails();
-      });
-    } else {
+    ServerConnection.initServerInfo().then(function () {
       ctrl.getPatientDetails();
-    };
+    })
 
   });
 

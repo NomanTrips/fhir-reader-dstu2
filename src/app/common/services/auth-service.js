@@ -82,7 +82,6 @@ fhirReader.factory('Auth', function (firebase, $firebaseAuth, ENDPOINT_URI, $fir
             var firebaseUser = factory.authObj.$getAuth();
             var settingsPath = rootRef.child("users").child(firebaseUser.uid).child("fhirSettings");
             var settingsObject = $firebaseObject(settingsPath);
-            //console.log(settingsObject);
             return settingsObject;
         },
         authObj: factory.authObj
