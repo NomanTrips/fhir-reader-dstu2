@@ -6,8 +6,9 @@ fhirReader.controller('ServerReportCtrl',
     ctrl.loadingBarIncrement = 30;
     ctrl.status = '  ';
     ctrl.customFullscreen = false;
-    ctrl.server = ServerConnection.server;
-    ctrl.baseUrl = ServerConnection.baseUrl;
+    ctrl.server;
+    ctrl.baseUrl;
+    ctrl.clientName;
     ctrl.setSearchText = setSearchText;
     var originatorEv;
     ctrl.isOpen = false;
@@ -181,6 +182,9 @@ fhirReader.controller('ServerReportCtrl',
       ctrl.initProfile();
       //console.log(ServerConnection.getBaseUrl());
       if (ServerConnection.getBaseUrl() != undefined && ServerConnection.getBaseUrl() != '' ) {
+        ctrl.server = ServerConnection.server;
+        ctrl.baseUrl = ServerConnection.getBaseUrl();
+        ctrl.clientName = ServerConnection.getClientName();
         ctrl.getPatients();
         ctrl.getResourceCounts();
         ctrl.getConformance();

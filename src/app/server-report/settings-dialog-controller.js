@@ -17,6 +17,7 @@ fhirReader.controller('SettingsDialogCtrl',
 
     ctrl.save = function () {
       ctrl.server.baseUrl = ctrl.baseUrl;
+      ctrl.server.clientName = ctrl.clientName;
       ServerConnection.updateServerInfo(ctrl.server);
       $mdDialog.hide();
     };
