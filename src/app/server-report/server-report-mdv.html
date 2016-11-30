@@ -117,34 +117,42 @@
 				<div layout="row">
 					<toggle-sidenav></toggle-sidenav>
 				</div>
-				
+
 				<md-card-content layout="column" layout-align="space-between" ng-show="! resources.connected">
 					<md-subheader class="md-warn">Not connected to a FHIR server!</md-subheader>
 				</md-card-content>
 
-				<md-card-content layout="column" layout-align="space-between" ng-show="resources.connected">
-					<md-subheader class="md-accent">Publisher & Contact</md-subheader>
-					<div layout="column">
+				<div ng-show="resources.connected">
+					<md-subheader class="md-primary">Publisher & Contact</md-subheader>
+					<md-card-content layout="column" layout-align="space-between">
 
-						<h3>{{resources.publisher}}</h3>
-						<span ng-show="resources.formats"><b>Supported formats:</b> {{resources.formats}}</span>
-						<span ng-show="resources.fhirVersion"><b>FHIR version:</b> {{resources.fhirVersion}}</span>
-					</div>
-					<md-subheader class="md-accent">Available resource types</md-subheader>
-					<div layout="column">
+						<div layout="column">
 
-						<md-chips>
-							<md-chip>Patient ({{resources.patientCount}})</md-chip>
-							<md-chip>Encounter ({{resources.encounterCount}})</md-chip>
-							<md-chip>Condition ({{resources.conditionCount}})</md-chip>
-							<md-chip>Medication Order ({{resources.medicationOrderCount}})</md-chip>
-							<md-chip>Observation ({{resources.observationCount}})</md-chip>
-							<md-chip>Procedure ({{resources.procedureCount}})</md-chip>
-						</md-chips>
-					</div>
+							<h3>{{resources.publisher}}</h3>
+							<span ng-show="resources.formats"><b>Supported formats:</b> {{resources.formats}}</span>
+							<span ng-show="resources.fhirVersion"><b>FHIR version:</b> {{resources.fhirVersion}}</span>
+						</div>
+					</md-card-content>
+
+					<md-subheader class="md-primary">Available resource types</md-subheader>
+					<md-card-content layout="column" layout-align="space-between">
+
+						<div layout="column">
+
+							<md-chips>
+								<md-chip>Patient ({{resources.patientCount}})</md-chip>
+								<md-chip>Encounter ({{resources.encounterCount}})</md-chip>
+								<md-chip>Condition ({{resources.conditionCount}})</md-chip>
+								<md-chip>Medication Order ({{resources.medicationOrderCount}})</md-chip>
+								<md-chip>Observation ({{resources.observationCount}})</md-chip>
+								<md-chip>Procedure ({{resources.procedureCount}})</md-chip>
+							</md-chips>
+						</div>
+					</md-card-content>
+				</div>
 
 
-				</md-card-content>
+
 			</md-card>
 		</div>
 

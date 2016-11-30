@@ -15,7 +15,7 @@ fhirReader.controller('ServerReportCtrl',
     ctrl.connected = false;
 
     ctrl.authItems = {
-      default: { name: "Default user", icon: "account", direction: "bottom", show: "true" },
+      default: { name: "Default user - settings stored locally", icon: "account", direction: "bottom", show: "true" },
       google: { name: "Google", icon: "google", direction: "top", show: "true" },
       signout: { name: "Sign out", icon: "sign-out", direction: "bottom", show: "false" }
     };
