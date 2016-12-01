@@ -15,8 +15,15 @@ fhirReader.controller('ServerReportCtrl',
     ctrl.connected = false;
 
     ctrl.authItems = {
-      default: { name: "Default user - settings stored locally", icon: "account", direction: "bottom", show: "true" },
-      google: { name: "Google", icon: "google", direction: "top", show: "true" },
+      default: {
+        name: "Default user",
+        icon: "account",
+        direction: "bottom",
+        show: "true",
+        username: "",
+        tooltip: "Signed in as the Default user."
+      },
+      google: { name: "Google", icon: "google", direction: "top", show: "true", username: "", tooltip: "" },
       signout: { name: "Sign out", icon: "sign-out", direction: "bottom", show: "false" }
     };
 
@@ -34,11 +41,15 @@ fhirReader.controller('ServerReportCtrl',
         ctrl.account = ctrl.authItems.default;
       } else {
         Auth.authenticate(authItem.name).then(function (result) {
+          var firebaseUser = Auth.authObj.$getAuth();
+          console.log(firebaseUser);
           //console.log("Signed in as:", result.user.uid);
           ctrl.authItems.default.show = false;
           ctrl.authItems.google.show = false;
           //ctrl.authItems.github.show = false;
           ctrl.authItems.signout.show = true;
+          //console.log(result);
+
           ctrl.account = ctrl.authItems.google;
         }).catch(function (error) {
           console.error("Authentication failed:", error);
@@ -63,6 +74,9 @@ fhirReader.controller('ServerReportCtrl',
         ctrl.authItems.google.show = false;
         //ctrl.authItems.github.show = false;
         ctrl.authItems.signout.show = true;
+        var TruncatedUserName = firebaseUser.displayName.substring(0, 1);
+        ctrl.authItems.google.tooltip = "Signed in with Google: " + firebaseUser.email;
+        ctrl.authItems.google.username = TruncatedUserName;
         ctrl.account = ctrl.authItems.google;
       } else {
         ctrl.authItems.signout.show = false;
@@ -80,6 +94,10 @@ fhirReader.controller('ServerReportCtrl',
       FhirModel.fhirSearch('Patient')
         .then(function (entries) {
           ctrl.patientEntries = entries.entry;
+        }).catch(function (error) {
+
+        }).finally(function () {
+  
         });
     }
 
@@ -131,36 +149,54 @@ fhirReader.controller('ServerReportCtrl',
       FhirModel.fhirSearch('Patient', '_summary=count')
         .then(function (searchBundle) {
           ctrl.patientCount = ctrl.getTotal(searchBundle);
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearch('Encounter', '_summary=count')
         .then(function (searchBundle) {
           ctrl.encounterCount = ctrl.getTotal(searchBundle);
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearch('MedicationOrder', '_summary=count')
         .then(function (searchBundle) {
           ctrl.medicationOrderCount = ctrl.getTotal(searchBundle);
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearch('Procedure', '_summary=count')
         .then(function (searchBundle) {
           ctrl.procedureCount = ctrl.getTotal(searchBundle);
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearch('Condition', '_summary=count')
         .then(function (searchBundle) {
           ctrl.conditionCount = ctrl.getTotal(searchBundle);
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearch('Observation', '_summary=count')
         .then(function (searchBundle) {
           ctrl.observationCount = ctrl.getTotal(searchBundle);
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 20;
         });
 
@@ -174,6 +210,10 @@ fhirReader.controller('ServerReportCtrl',
           ctrl.formats = conf.format;
           ctrl.contact = conf.contact;
           ctrl.loadingBarIncrement += 10;
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
     }
 
@@ -181,7 +221,7 @@ fhirReader.controller('ServerReportCtrl',
     ServerConnection.initServerInfo().then(function () {
       ctrl.initProfile();
       //console.log(ServerConnection.getBaseUrl());
-      if (ServerConnection.getBaseUrl() != undefined && ServerConnection.getBaseUrl() != '' ) {
+      if (ServerConnection.getBaseUrl() != undefined && ServerConnection.getBaseUrl() != '') {
         ctrl.server = ServerConnection.server;
         ctrl.baseUrl = ServerConnection.getBaseUrl();
         ctrl.clientName = ServerConnection.getClientName();

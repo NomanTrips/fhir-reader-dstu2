@@ -1,7 +1,9 @@
+
 <div id="loadingbar" ng-hide="resources.loadingBarIncrement > 100">
 	<md-progress-linear md-mode="determinate" value="{{resources.loadingBarIncrement}}" md-theme="dark-yellow">
 	</md-progress-linear>
 </div>
+
 
 <div flex layout="row">
 
@@ -14,17 +16,22 @@
 						FHIR-reader
 					</h3>
 				</div>
+			
 				<div flex="25">
 					<div layout-sm="column" layout-align="space-around" id="loadingcircle" ng-hide="resources.loadingBarIncrement > 100">
 						<md-progress-circular md-mode="indeterminate" md-theme="dark-yellow" md-diameter="20px">
 						</md-progress-circular>
 					</div>
 				</div>
+
 				<md-menu>
-					<md-button aria-label="Sign-in" class="md-icon-button md-accent md-warn md-raised" ng-click="resources.openMenu($mdOpenMenu, $event)"
+					<md-button aria-label="Sign-in" class="md-fab md-mini md-warn" ng-click="resources.openMenu($mdOpenMenu, $event)"
 						ng-mouseenter="resources.isOpen=true" ng-mouseleave="resources.isOpen=false">
-						<md-tooltip md-direction="left" md-visible="resources.isOpen">{{resources.account.name}}</md-tooltip>
-						<md-icon md-menu-origin="" md-svg-src="{{resources.account.icon}}"></md-icon>
+						<md-tooltip md-direction="right" md-visible="resources.isOpen">{{resources.account.tooltip}}</md-tooltip>
+						{{resources.account.username}}
+						<md-icon md-svg-src="{{resources.authItems.default.icon}}" md-menu-align-target=""
+						ng-show="resources.authItems.default.show">
+						</md-icon>
 					</md-button>
 					<md-menu-content width="4">
 						<md-menu-item ng-show="resources.authItems.google.show">
@@ -123,7 +130,7 @@
 				</md-card-content>
 
 				<div ng-show="resources.connected">
-					<md-subheader class="md-primary">Publisher & Contact</md-subheader>
+					<md-subheader class="md-primary">Publisher & Contact:</md-subheader>
 					<md-card-content layout="column" layout-align="space-between">
 
 						<div layout="column">
@@ -134,7 +141,7 @@
 						</div>
 					</md-card-content>
 
-					<md-subheader class="md-primary">Available resource types</md-subheader>
+					<md-subheader class="md-primary">Available resource types:</md-subheader>
 					<md-card-content layout="column" layout-align="space-between">
 
 						<div layout="column">

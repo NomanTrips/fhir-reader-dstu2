@@ -53,16 +53,35 @@ fhirReader.factory("FhirModel", function ($http, $q, ServerConnection, Auth, Loc
     isConnectionInfoResolved: function () {
       return self.connectionInfoResolved;
     },
+    
     fhirSearchById: function (id, resourceType) {
-      return $http(getSearchByIdURL(resourceType, id)).then(extract);
+      var deferred = $q.defer();
+      $http(getSearchByIdURL(resourceType, id)).then(function successCallback(response) {
+        deferred.resolve(extract(response));
+      }, function errorCallback(response) {
+        deferred.reject(response);
+      });
+      return deferred.promise;
     },
 
     fhirSearch: function (resourceType, searchString) {
-      return $http(getSearchURL(resourceType, searchString)).then(extract);
+      var deferred = $q.defer();
+      $http(getSearchURL(resourceType, searchString)).then(function successCallback(response) {
+        deferred.resolve(extract(response));
+      }, function errorCallback(response) {
+        deferred.reject(response);
+      });
+      return deferred.promise;
     },
 
     fhirGetById: function (id, resourceType) {
-      return $http(getGetByIdURL(resourceType, id)).then(extract);
+      var deferred = $q.defer();
+      $http(getGetByIdURL(resourceType, id)).then(function successCallback(response) {
+        deferred.resolve(extract(response));
+      }, function errorCallback(response) {
+        deferred.reject(response);
+      });
+      return deferred.promise;
     }
 
   }
