@@ -42,14 +42,13 @@ fhirReader.controller('ServerReportCtrl',
       } else {
         Auth.authenticate(authItem.name).then(function (result) {
           var firebaseUser = Auth.authObj.$getAuth();
-          console.log(firebaseUser);
-          //console.log("Signed in as:", result.user.uid);
+          console.log("Signed in as:", result.user.uid);
           ctrl.authItems.default.show = false;
           ctrl.authItems.google.show = false;
-          //ctrl.authItems.github.show = false;
           ctrl.authItems.signout.show = true;
-          //console.log(result);
-
+          var TruncatedUserName = firebaseUser.displayName.substring(0, 1);
+          ctrl.authItems.google.tooltip = "Signed in with Google: " + firebaseUser.email;
+          ctrl.authItems.google.username = TruncatedUserName;
           ctrl.account = ctrl.authItems.google;
         }).catch(function (error) {
           console.error("Authentication failed:", error);
@@ -97,7 +96,7 @@ fhirReader.controller('ServerReportCtrl',
         }).catch(function (error) {
 
         }).finally(function () {
-  
+
         });
     }
 
