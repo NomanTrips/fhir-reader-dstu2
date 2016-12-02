@@ -24,58 +24,75 @@ fhirReader.controller('PatientCtrl',
       FhirModel.fhirSearchById($stateParams.id, 'AllergyIntolerance')
         .then(function (entries) {
           ctrl.allergyEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.allergyEntries != undefined) {
             ctrl.sections.push('Allergy Intolerances');
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'Encounter')
         .then(function (entries) {
           ctrl.encounterEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.encounterEntries != undefined) {
             ctrl.sections.push({ name: "Encounters" });
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'Immunization')
         .then(function (entries) {
           ctrl.immunizationEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.immunizationEntries != undefined) {
             ctrl.sections.push({ name: "Immunizations" });
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'Condition')
         .then(function (entries) {
           ctrl.conditionEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.conditionEntries != undefined) {
             ctrl.sections.push({ name: "Conditions" });
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'Procedure')
         .then(function (entries) {
           ctrl.procedureEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.procedureEntries != undefined) {
             ctrl.sections.push({ name: "Procedures" });
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirGetById($stateParams.id, 'Patient')
         .then(function (patient) {
           ctrl.patient = patient;
+        }).catch(function (error) {
+
+        }).finally(function () {
           ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'MedicationOrder')
         .then(function (entries) {
           ctrl.medOrders = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.medOrders != undefined) {
             ctrl.sections.push({ name: "Medication orders" });
           }
@@ -93,24 +110,34 @@ fhirReader.controller('PatientCtrl',
             }
           });
 
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'DiagnosticReport')
         .then(function (entries) {
           ctrl.diagnosticReportEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.diagnosticReportEntries != undefined) {
             ctrl.sections.push({ name: "Diagnostic Reports" });
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
 
       FhirModel.fhirSearchById($stateParams.id, 'Observation')
         .then(function (entries) {
           ctrl.observationEntries = entries.entry;
-          ctrl.loadingBarIncrement += 10;
           if (ctrl.observationEntries != undefined) {
             ctrl.sections.push({ name: "Observations" });
           }
+        }).catch(function (error) {
+
+        }).finally(function () {
+          ctrl.loadingBarIncrement += 10;
         });
     }
 
